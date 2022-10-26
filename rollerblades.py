@@ -13,7 +13,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # type: ign
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT', '32400')
 TOKEN = os.getenv('TOKEN')
-INTERVAL = os.getenv('INTERVAL', 3600)
+INTERVAL = int(os.getenv('INTERVAL', 3600))
 
 # --- Globals ---
 VER = '0.1'
