@@ -56,6 +56,8 @@ logger.addHandler(ch)
 def get_current_preroll(host: str, port: str, token: str) -> str:
     url = f"https://{host}:{port}/:/prefs?X-Plex-Token={token}"
     r = requests.get(url, headers=HEADERS, verify=False)
+    if (DEBUG):
+        logger.debug(f"HTTP status code: {r.status_code}.")
     root = ET.fromstring(r.content)
     return root.findall(".//*[@id='CinemaTrailersPrerollID']")[0].attrib['value']  # noqa E501
 
@@ -63,13 +65,15 @@ def get_current_preroll(host: str, port: str, token: str) -> str:
 def update_preroll(host: str, port: str, token: str, key: str, preroll: str) -> int:  # noqa E501
     url = f"https://{host}:{port}/:/prefs?{key}={preroll}&X-Plex-Token={token}"
     r = requests.put(url, headers=HEADERS, verify=False)
+    if (DEBUG):
+        logger.debug(f"Update HTTP status code: {r.status_code}.")
     return r.status_code
 
 
 def main() -> None:
     logger.info(f"Startup {USER_AGENT}.")
     while True:
-        current_preroll = get_current_preroll(HOST, PORT, TOKEN)  # type: ignore  # noqa E501
+        current_preroll = get_current_preroll(HOST, PORT, TOKEN)
         logger.info(f"Current preroll is: {current_preroll}.")
         current_month = strftime("%m")
         todays_date = strftime("%m%d")
@@ -87,10 +91,10 @@ def main() -> None:
         # If there's a change from the current preroll, update Plex
         if new_preroll != current_preroll:
             logger.info(f"Change {current_preroll} to {new_preroll}.")
-            update_preroll(HOST, PORT, TOKEN, KEY, new_preroll)  # type: ignore
+            update_preroll(HOST, PORT, TOKEN, KEY, new_preroll)
 
         # take a nap for an hour and do it again
-        sleep(INTERVAL)  # type: ignore
+        sleep(INTERVAL)
 
 
 if __name__ == "__main__":
