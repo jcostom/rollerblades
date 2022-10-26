@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import logging
 import os
 import requests
 import urllib3
@@ -14,6 +15,7 @@ HOST = os.getenv('HOST')
 PORT = os.getenv('PORT', '32400')
 TOKEN = os.getenv('TOKEN')
 INTERVAL = int(os.getenv('INTERVAL', 3600))
+DEBUG = int(os.getenv('DEBUG', 0))
 
 # --- Globals ---
 VER = '0.1'
@@ -35,6 +37,21 @@ HEADERS = {
     "User-Agent": USER_AGENT
 }
 
+# Setup logger
+logger = logging.getLogger()
+ch = logging.StreamHandler()
+if DEBUG:
+    logger.setLevel(logging.DEBUG)
+    ch.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
+    ch.setLevel(logging.INFO)
+
+formatter = logging.Formatter('[%(levelname)s] %(asctime)s %(message)s',
+                              datefmt='[%d %b %Y %H:%M:%S %Z]')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
 
 def get_current_preroll(host: str, port: str, token: str) -> str:
     url = f"https://{host}:{port}/:/prefs?X-Plex-Token={token}"
@@ -50,8 +67,10 @@ def update_preroll(host: str, port: str, token: str, key: str, preroll: str) -> 
 
 
 def main() -> None:
+    logger.info(f"Startup {USER_AGENT}.")
     while True:
         current_preroll = get_current_preroll(HOST, PORT, TOKEN)  # type: ignore  # noqa E501
+        logger.info(f"Current preroll is: {current_preroll}.")
         current_month = strftime("%m")
         todays_date = strftime("%m%d")
 
@@ -67,6 +86,7 @@ def main() -> None:
 
         # If there's a change from the current preroll, update Plex
         if new_preroll != current_preroll:
+            logger.info(f"Change {current_preroll} to {new_preroll}.")
             update_preroll(HOST, PORT, TOKEN, KEY, new_preroll)  # type: ignore
 
         # take a nap for an hour and do it again
