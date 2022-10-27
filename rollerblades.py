@@ -24,7 +24,6 @@ VER = '0.2'
 USER_AGENT = f"rollerblades.py/{VER}"
 KEY = 'CinemaTrailersPrerollID'
 
-
 HEADERS = {
     "User-Agent": USER_AGENT
 }
