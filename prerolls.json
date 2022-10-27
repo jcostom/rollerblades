@@ -1,12 +1,12 @@
 {
     "SPECIAL_MONTHS": {
-        "June": "/homevideos/preroll/pride.mp4"
+        "June": "/prerolls/pride.mp4"
     },
     "HOLIDAYS": {
-        "0401": "/homevideos/preroll/april-fool.mp4",
-        "1225": "/homevideos/preroll/christmas.mp4",
-        "0214": "/homevideos/preroll/valentine.mp4",
-        "1031": "/homevideos/preroll/halloween.mp4"
+        "0401": "/prerolls/holiday/april-fool.mp4",
+        "1225": "/prerolls/holiday/christmas.mp4",
+        "0214": "/prerolls/holiday/valentine.mp4",
+        "1031": "/prerolls/holiday/halloween.mp4"
     },
-    "DAILYPATH": "/homevideos/preroll/rotation"
+    "DAILYPATH": "/prerolls/daily"
 }
