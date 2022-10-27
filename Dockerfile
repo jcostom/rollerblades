@@ -2,6 +2,8 @@ FROM python:slim
 
 ARG TZ=America/New_York
 
+VOLUME "/config"
+
 RUN pip install requests
 
 RUN mkdir /app

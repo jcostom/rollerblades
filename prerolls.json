@@ -1,0 +1,12 @@
+{
+    "SPECIAL_MONTHS": {
+        "June": "/homevideos/preroll/pride.mp4"
+    },
+    "HOLIDAYS": {
+        "0401": "/homevideos/preroll/april-fool.mp4",
+        "1225": "/homevideos/preroll/christmas.mp4",
+        "0214": "/homevideos/preroll/valentine.mp4",
+        "1031": "/homevideos/preroll/halloween.mp4"
+    },
+    "DAILYPATH": "/homevideos/preroll/rotation"
+}
