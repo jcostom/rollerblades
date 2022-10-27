@@ -8,10 +8,11 @@ import urllib3
 import xml.etree.ElementTree as ET
 from time import strftime, sleep
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # type: ignore  # noqa E501
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # noqa E501
 
 # --- To be passed in to container ---
 # Required Vars
+SCHEME = os.getenv('SCHEME', 'https')
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT', '32400')
 TOKEN = os.getenv('TOKEN')
@@ -21,7 +22,7 @@ PRIDEMONTH = int(os.getenv('PRIDEMONTH', 1))
 DEBUG = int(os.getenv('DEBUG', 0))
 
 # --- Globals ---
-VER = '0.3'
+VER = '0.4'
 USER_AGENT = f"rollerblades.py/{VER}"
 KEY = 'CinemaTrailersPrerollID'
 
@@ -51,8 +52,8 @@ def load_prerolls(file: str) -> dict:
     return prerolls
 
 
-def get_current_preroll(host: str, port: str, token: str) -> str:
-    url = f"https://{host}:{port}/:/prefs?X-Plex-Token={token}"
+def get_current_preroll(scheme: str, host: str, port: str, token: str) -> str:
+    url = f"{scheme}://{host}:{port}/:/prefs?X-Plex-Token={token}"
     r = requests.get(url, headers=HEADERS, verify=False)
     if (DEBUG):
         logger.debug(f"HTTP status code: {r.status_code}.")
@@ -60,8 +61,8 @@ def get_current_preroll(host: str, port: str, token: str) -> str:
     return root.findall(".//*[@id='CinemaTrailersPrerollID']")[0].attrib['value']  # noqa E501
 
 
-def update_preroll(host: str, port: str, token: str, key: str, preroll: str) -> int:  # noqa E501
-    url = f"https://{host}:{port}/:/prefs?{key}={preroll}&X-Plex-Token={token}"
+def update_preroll(scheme: str, host: str, port: str, token: str, key: str, preroll: str) -> int:  # noqa E501
+    url = f"{scheme}://{host}:{port}/:/prefs?{key}={preroll}&X-Plex-Token={token}"  # noqa E501
     r = requests.put(url, headers=HEADERS, verify=False)
     if (DEBUG):
         logger.debug(f"Update HTTP status code: {r.status_code}.")
@@ -73,7 +74,7 @@ def main() -> None:
     my_prerolls = load_prerolls(PREROLLS)
     logger.info(f"Loaded in prerolls data from {PREROLLS}.")
     while True:
-        current_preroll = get_current_preroll(HOST, PORT, TOKEN)
+        current_preroll = get_current_preroll(SCHEME, HOST, PORT, TOKEN)
         logger.info(f"Current preroll is: {current_preroll}.")
         current_month = strftime("%m")
         todays_date = strftime("%m%d")
@@ -91,7 +92,7 @@ def main() -> None:
         # If there's a change from the current preroll, update Plex
         if new_preroll != current_preroll:
             logger.info(f"Change {current_preroll} to {new_preroll}.")
-            update_preroll(HOST, PORT, TOKEN, KEY, new_preroll)
+            update_preroll(SCHEME, HOST, PORT, TOKEN, KEY, new_preroll)
 
         # take a nap for an hour and do it again
         sleep(INTERVAL)
