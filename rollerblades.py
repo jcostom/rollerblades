@@ -22,7 +22,7 @@ PRIDEMONTH = int(os.getenv('PRIDEMONTH', 1))
 DEBUG = int(os.getenv('DEBUG', 0))
 
 # --- Globals ---
-VER = '0.4'
+VER = '0.5'
 USER_AGENT = f"rollerblades.py/{VER}"
 KEY = 'CinemaTrailersPrerollID'
 
