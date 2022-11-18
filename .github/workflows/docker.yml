@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - 'main'
+      - 'dev'
     tags:
       - '*.*'
       - '*.*.*'
@@ -36,6 +37,7 @@ jobs:
             ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'main') }}
+            type=raw,value=dev,enable=${{ endsWith(GitHub.ref, 'dev') }}
             type=pep440,pattern={{version}}
       - name: Build and push
         uses: docker/build-push-action@v3

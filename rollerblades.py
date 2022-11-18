@@ -18,7 +18,7 @@ PORT = os.getenv('PORT', '32400')
 TOKEN = os.getenv('TOKEN')
 INTERVAL = int(os.getenv('INTERVAL', 3600))
 PREROLLS = os.getenv('PREROLLS', '/config/prerolls.json')
-PRIDEMONTH = int(os.getenv('PRIDEMONTH', 1))
+USE_MONTHS = int(os.getenv('USE_MONTHS', 1))
 DEBUG = int(os.getenv('DEBUG', 0))
 
 # --- Globals ---
@@ -79,12 +79,12 @@ def main() -> None:
         current_month = strftime("%m")
         todays_date = strftime("%m%d")
 
-        if current_month == "06" and PRIDEMONTH == 1:
-            # If it's June and you're supportive, use the pride month preroll
-            new_preroll = my_prerolls['SPECIAL_MONTHS']['June']
-        elif my_prerolls['HOLIDAYS'].get(todays_date) is not None:
+        if my_prerolls['HOLIDAYS'].get(todays_date) is not None:
             # If match on a holiday in the list of holidays, use that
             new_preroll = my_prerolls['HOLIDAYS'].get(todays_date)
+        elif USE_MONTHS == 1 and current_month in my_prerolls['MONTHS']:
+            # If current_month exists in the MONTHS section, use that.
+            new_preroll = my_prerolls['MONTHS'][current_month]
         else:
             # otherwise use the day of the week
             new_preroll = f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'  # noqa E501
