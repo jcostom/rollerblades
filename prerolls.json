@@ -1,6 +1,7 @@
 {
-    "SPECIAL_MONTHS": {
-        "June": "/prerolls/pride.mp4"
+    "MONTHS": {
+        "06": "/prerolls/pride.mp4",
+        "11": "/prerolls/thanksgiving.mp4"
     },
     "HOLIDAYS": {
         "0401": "/prerolls/holiday/april-fool.mp4",

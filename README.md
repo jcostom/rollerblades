@@ -14,12 +14,16 @@ This is the hardest part, and honestly, it's not hard. Go into the Plex Web UI, 
 
 ## Create your Config File
 
-This might seem a little daunting if you've never created JSON (Javascript Object Notation) formatted text before, but it's really not so bad. You'll be a pro in no time, especially if you've ever written Python code. You'll want sections for the SPECIAL_MONTHS, HOLIDAYS, and DAILYPATH areas. Here's my config for an example:
+This might seem a little daunting if you've never created JSON (Javascript Object Notation) formatted text before, but it's really not so bad. You'll be a pro in no time, especially if you've ever written Python code. You'll want sections for the MONTHS, HOLIDAYS, and DAILYPATH areas.
+
+**NOTE**: Version 0.6 and later introduce a couple of small changes to the JSON config file. Previously, the "month" section was called SPECIAL_MONTHS and used the name of the month. As of version 0.6, the configuration now uses MONTHS as the name of the section, and uses 2-digit numbers for the month, using a leading zero for Jan - Sept.
+
+Here's my config for an example:
 
 ```json
 {
-    "SPECIAL_MONTHS": {
-        "June": "/prerolls/pride.mp4"
+    "MONTHS": {
+        "06": "/prerolls/pride.mp4"
     },
     "HOLIDAYS": {
         "0401": "/prerolls/holiday/april-fool.mp4",
@@ -31,7 +35,7 @@ This might seem a little daunting if you've never created JSON (Javascript Objec
 }
 ```
 
-Even if you're not going to do the Pride Month thing, put something in there, you can turn the feature off, I promise. More on that later when we get to the how to launch the container stuff.
+Even if you're not going to do the MONTH thing, put something in there, you can turn the feature off, I promise. More on that later when we get to the how to launch the container stuff.
 
 ## Launching the Container
 
@@ -70,4 +74,6 @@ services:
     network_mode: bridge
 ```
 
-You'll note in both of these examples, I'm leveraging many of the defaults - https, port 32400, the 3600s sync interval, leaving Pride Month activated, default location for config file, etc. That's why so few options in use.
+You'll note in both of these examples, I'm leveraging many of the defaults - https, port 32400, the 3600s sync interval, leaving the Month feature activated, default location for config file, etc. That's why so few options in use.
+
+If you'd like to deactivate the MONTHS feature, set the environment variable USE_MONTHS to 0.
