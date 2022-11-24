@@ -1,13 +1,17 @@
 {
     "MONTHS": {
-        "06": "/prerolls/pride.mp4",
-        "11": "/prerolls/thanksgiving.mp4"
+        "06": "/prerolls/pride.mp4"
     },
     "HOLIDAYS": {
-        "0401": "/prerolls/holiday/april-fool.mp4",
-        "1225": "/prerolls/holiday/christmas.mp4",
+        "0401": "/prerolls/holiday/aprilfool-fbi.mp4;/prerolls/holiday/aprilfool-pornhub.mp4",
+        "1224": "/prerolls/holiday/christmas-jbrock.mp4;/prerolls/holiday/christmas-disney.mp4;/prerolls/holiday/christmas-lights.mp4;/prerolls/holiday/christmas-train.mp4",
+        "1225": "/prerolls/holiday/christmas-jbrock.mp4;/prerolls/holiday/christmas-disney.mp4;/prerolls/holiday/christmas-lights.mp4;/prerolls/holiday/christmas-train.mp4",
+        "1226": "/prerolls/holiday/christmas-jbrock.mp4;/prerolls/holiday/christmas-disney.mp4;/prerolls/holiday/christmas-lights.mp4;/prerolls/holiday/christmas-train.mp4",
         "0214": "/prerolls/holiday/valentine.mp4",
-        "1031": "/prerolls/holiday/halloween.mp4"
+        "1030": "/prerolls/holiday/halloween-serpent.mp4;/prerolls/holiday/halloween-zombies.mp4",
+        "1031": "/prerolls/holiday/halloween-serpent.mp4;/prerolls/holiday/halloween-zombies.mp4",
+        "1123": "/prerolls/holiday/thanksgiving.mp4",
+        "1124": "/prerolls/holiday/thanksgiving.mp4"
     },
     "DAILYPATH": "/prerolls/daily"
 }
