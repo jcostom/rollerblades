@@ -39,9 +39,9 @@ Even if you're not going to do the MONTH thing, put something in there, you can 
 
 ## Launching the Container
 
-If you're the launching from CLI type, you'll need to make a directory for your config file, drop that on the host, and then instantiate your container. For our purposes here, I'm going to assume you decided to stick your files in a directory called `/var/docks/rollerblades`. You can put your files whereever you feel like though. You do you. Also, be safe - don't run this thing as root. There's really no need to. You don't need any sort of special priviliges to run this, so I'm going to assume you're going to run this as your regular user. Figure out your user's UID and GID value. To get this most easily, jump into the terminal and type `id`. The first two things to come back will be your UID and GID values. Note these as well.
+If you're the launching from CLI type, you'll need to make a directory for your config file, drop that on the host, and then instantiate your container. For our purposes here, I'm going to assume you decided to stick your files in a directory called `/var/docks/rollerblades`. You can put your files whereever you feel like though. You do you. Also, be safe - don't run this thing as root. There's really no need to. You don't need any sort of special privileges to run this, so I'm going to assume you're going to run this as your regular user. Figure out your user's UID and GID value. To get this most easily, jump into the terminal and type `id`. The first two things to come back will be your UID and GID values. Note these as well.
 
-Ready? You'll of course, need to know the URL scheme (http/https), hostname, port (if it's different than 32400), your Plex token that you figured out above, the path to your config file (from the perspective of the container, if not `/config/prerolls.json`), if you intend to turn off the Pride Month feature, how often you want to sync the preroll setting (default is hourly), and if you need to turn on debugging. Here's a sample invocation:
+Ready? You'll of course, need to know the URL scheme (http/https), hostname, port (if it's different than 32400), your Plex token that you figured out above, the path to your config file (from the perspective of the container, if not `/config/prerolls.json`), if you intend to turn off the Months feature, how often you want to sync the preroll setting (default is hourly), and if you need to turn on debugging. Here's a sample invocation:
 
 ```bash
 docker run -d \
@@ -76,4 +76,9 @@ services:
 
 You'll note in both of these examples, I'm leveraging many of the defaults - https, port 32400, the 3600s sync interval, leaving the Month feature activated, default location for config file, etc. That's why so few options in use.
 
-If you'd like to deactivate the MONTHS feature, set the environment variable USE_MONTHS to 0.
+## Variables you may want to change for one reason or another
+
+1. If you'd like to deactivate the MONTHS feature, set the environment variable USE_MONTHS to 0.
+2. If you wish to connect to your Plex using http instead of https, set SCHEME to 'http' (default is https).
+3. If your Plex isn't running on tcp/32400, set PORT to whatever port you can find it on.
+4. If things are going bananas and you want more info in the logs set DEBUG to 1.
