@@ -1,0 +1,22 @@
+name: Delete old container images
+
+on:
+  push:
+    tags:
+      - '*.*'
+      - '*.*.*'
+
+jobs:
+  clean-ghcr:
+    name: Delete old unused container images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old images
+        uses: snok/container-retention-policy@v1
+        with:
+          image-names: ${{ github.event.repository.name }}
+          cut-off: 1 week ago UTC
+          untagged-only: true
+          keep-at-least: 1
+          account-type: personal
+          token: ${{ secrets.GHCR_CLEAN_PAT }}
