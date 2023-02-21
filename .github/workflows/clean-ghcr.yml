@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete old images
-        uses: snok/container-retention-policy@v1
+        uses: snok/container-retention-policy@v2
         with:
           image-names: ${{ github.event.repository.name }}
           cut-off: 1 week ago UTC
