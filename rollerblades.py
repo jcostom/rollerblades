@@ -22,7 +22,7 @@ USE_MONTHS = int(os.getenv('USE_MONTHS', 1))
 DEBUG = int(os.getenv('DEBUG', 0))
 
 # --- Globals ---
-VER = '0.7.2'
+VER = '0.8'
 USER_AGENT = f"rollerblades.py/{VER}"
 KEY = 'CinemaTrailersPrerollID'
 
@@ -101,11 +101,11 @@ def main() -> None:
             new_preroll = is_directory_check(my_prerolls['MONTHS'][current_month])  # noqa E501
         else:
             # otherwise use day of the week
-            # check for directory for $dir/day/, or use $dir/day.mp4
-            if os.path.isdir(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}'):  # noqa E501
-                new_preroll = is_directory_check(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}')  # noqa E501
-            else:
+            # use $dir/day.mp4, or use list of files in $dir/day/ directory
+            if os.path.exists(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'):  # noqa E501
                 new_preroll = f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'  # noqa E501
+            else:
+                new_preroll = is_directory_check(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}')  # noqa E501
 
         # If there's a change from the current preroll, update Plex
         if new_preroll != current_preroll:
