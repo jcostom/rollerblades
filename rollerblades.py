@@ -100,11 +100,12 @@ def main() -> None:
             # If current_month exists in the MONTHS section, use that.
             new_preroll = is_directory_check(my_prerolls['MONTHS'][current_month])  # noqa E501
         else:
-            # otherwise use the day of the week
+            # otherwise use the day of the week checking for $DAILY_DIR/day-of-week.mp4 
+            # versus $DAILY_DIR/day-of-week as a directory
             if os.path.exists(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'):  # noqa E501
                 new_preroll = f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'  # noqa E501
             else:
-                new_preroll = is_directory_check(my_prerolls['DAILYPATH'])
+                new_preroll = is_directory_check(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}')  # noqa E501
 
         # If there's a change from the current preroll, update Plex
         if new_preroll != current_preroll:
