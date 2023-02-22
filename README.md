@@ -37,6 +37,10 @@ Here's my config for an example:
 
 Even if you're not going to do the MONTH thing, put something in there, you can turn the feature off, I promise. More on that later when we get to the how to launch the container stuff.
 
+## Using directories full of videos instead of single videos
+
+Want to use directories full of files for some extra variety, without having to enumerate all the vids you want to use? Ok, specify directory names in the prerolls.json file. For daily use, make directories for each day under the DAILYPATH directory.
+
 ## Launching the Container
 
 If you're the launching from CLI type, you'll need to make a directory for your config file, drop that on the host, and then instantiate your container. For our purposes here, I'm going to assume you decided to stick your files in a directory called `/var/docks/rollerblades`. You can put your files whereever you feel like though. You do you. Also, be safe - don't run this thing as root. There's really no need to. You don't need any sort of special privileges to run this, so I'm going to assume you're going to run this as your regular user. Figure out your user's UID and GID value. To get this most easily, jump into the terminal and type `id`. The first two things to come back will be your UID and GID values. Note these as well.
