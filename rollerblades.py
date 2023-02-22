@@ -61,6 +61,17 @@ def get_current_preroll(scheme: str, host: str, port: str, token: str) -> str:
     return root.findall(".//*[@id='CinemaTrailersPrerollID']")[0].attrib['value']  # noqa E501
 
 
+def is_directory_check(preroll_path):
+    # Check if the preroll path defined in prerolls.json is a directory or file.
+    # A list of files separated by ; makes it so Plex randomly selects a preroll in the list.
+    if os.path.isdir(preroll_path):
+        files_list = [os.path.join(preroll_path, file) for file in os.listdir(preroll_path) if file.endswith('.mp4')]
+        preroll_list_string = ";".join(files_list)
+        return preroll_list_string
+    else:
+        return preroll_path
+
+
 def update_preroll(scheme: str, host: str, port: str, token: str, key: str, preroll: str) -> int:  # noqa E501
     url = f"{scheme}://{host}:{port}/:/prefs?{key}={preroll}&X-Plex-Token={token}"  # noqa E501
     r = requests.put(url, headers=HEADERS, verify=False)
@@ -81,13 +92,16 @@ def main() -> None:
 
         if my_prerolls['HOLIDAYS'].get(todays_date) is not None:
             # If match on a holiday in the list of holidays, use that
-            new_preroll = my_prerolls['HOLIDAYS'].get(todays_date)
+            new_preroll = is_directory_check(my_prerolls['HOLIDAYS'].get(todays_date))
         elif USE_MONTHS == 1 and current_month in my_prerolls['MONTHS']:
             # If current_month exists in the MONTHS section, use that.
-            new_preroll = my_prerolls['MONTHS'][current_month]
+            new_preroll = is_directory_check(my_prerolls['MONTHS'][current_month])
         else:
             # otherwise use the day of the week
-            new_preroll = f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'  # noqa E501
+            if os.path.exists(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'):
+                new_preroll = f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'  # noqa E501
+            else:
+                new_preroll = is_directory_check(my_prerolls['DAILYPATH'])
 
         # If there's a change from the current preroll, update Plex
         if new_preroll != current_preroll:
