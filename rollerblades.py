@@ -105,8 +105,7 @@ def main() -> None:
             if os.path.isdir(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}'):  # noqa E501
                 new_preroll = is_directory_check(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}')  # noqa E501
             else:
-                if os.path.exists(f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'):  # noqa E501
-                    new_preroll = f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'  # noqa E501
+                new_preroll = f'{my_prerolls["DAILYPATH"]}/{strftime("%A").lower()}.mp4'  # noqa E501
 
         # If there's a change from the current preroll, update Plex
         if new_preroll != current_preroll:
