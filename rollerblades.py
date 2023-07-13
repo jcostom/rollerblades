@@ -22,7 +22,7 @@ USE_MONTHS = int(os.getenv('USE_MONTHS', 1))
 DEBUG = int(os.getenv('DEBUG', 0))
 
 # --- Globals ---
-VER = '0.8.3'
+VER = '0.9'
 USER_AGENT = f"rollerblades.py/{VER}"
 KEY = 'CinemaTrailersPrerollID'
 
@@ -31,19 +31,11 @@ HEADERS = {
 }
 
 # Setup logger
+LOG_LEVEL = 'DEBUG' if DEBUG else 'INFO'
+logging.basicConfig(level=LOG_LEVEL,
+                    format='[%(levelname)s] %(asctime)s %(message)s',
+                    datefmt='[%d %b %Y %H:%M:%S %Z]')
 logger = logging.getLogger()
-ch = logging.StreamHandler()
-if DEBUG:
-    logger.setLevel(logging.DEBUG)
-    ch.setLevel(logging.DEBUG)
-else:
-    logger.setLevel(logging.INFO)
-    ch.setLevel(logging.INFO)
-
-formatter = logging.Formatter('[%(levelname)s] %(asctime)s %(message)s',
-                              datefmt='[%d %b %Y %H:%M:%S %Z]')
-ch.setFormatter(formatter)
-logger.addHandler(ch)
 
 
 def load_prerolls(file: str) -> dict:
