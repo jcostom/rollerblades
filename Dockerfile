@@ -1,4 +1,4 @@
-FROM python:3.12.0-slim-bookworm
+FROM python:3.12.1-slim-bookworm
 
 ARG TZ=America/New_York
 
