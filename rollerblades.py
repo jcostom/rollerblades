@@ -22,7 +22,7 @@ USE_MONTHS = int(os.getenv('USE_MONTHS', 1))
 DEBUG = int(os.getenv('DEBUG', 0))
 
 # --- Globals ---
-VER = '1.0.2'
+VER = '1.0.3'
 USER_AGENT = f"rollerblades.py/{VER}"
 KEY = 'CinemaTrailersPrerollID'
 
@@ -47,8 +47,7 @@ def load_prerolls(file: str) -> dict:
 def get_current_preroll(scheme: str, host: str, port: str, token: str) -> str:
     url = f"{scheme}://{host}:{port}/:/prefs?X-Plex-Token={token}"
     r = requests.get(url, headers=HEADERS, verify=False)
-    if (DEBUG):
-        logger.debug(f"HTTP status code: {r.status_code}.")
+    DEBUG and logger.debug(f"HTTP status code: {r.status_code}.")
     root = ET.fromstring(r.content)
     return root.findall(".//*[@id='CinemaTrailersPrerollID']")[0].attrib['value']  # noqa E501
 
@@ -61,8 +60,7 @@ def is_directory_check(preroll_path: str) -> str:
     # selects a preroll in the list.
     if os.path.isdir(preroll_path):
         files_list = [os.path.join(preroll_path, file) for file in os.listdir(preroll_path) if file.endswith('.mp4')]  # noqa E501
-        preroll_list_string = ";".join(files_list)
-        return preroll_list_string
+        return ";".join(files_list)
     else:
         return preroll_path
 
@@ -70,8 +68,7 @@ def is_directory_check(preroll_path: str) -> str:
 def update_preroll(scheme: str, host: str, port: str, token: str, key: str, preroll: str) -> int:  # noqa E501
     url = f"{scheme}://{host}:{port}/:/prefs?{key}={preroll}&X-Plex-Token={token}"  # noqa E501
     r = requests.put(url, headers=HEADERS, verify=False)
-    if (DEBUG):
-        logger.debug(f"Update HTTP status code: {r.status_code}.")
+    DEBUG and logger.debug(f"Update HTTP status code: {r.status_code}.")
     return r.status_code
 
 
@@ -104,7 +101,7 @@ def main() -> None:
             logger.info(f"Change {current_preroll} to {new_preroll}.")
             update_preroll(SCHEME, HOST, PORT, TOKEN, KEY, new_preroll)
 
-        # take a nap for an hour and do it again
+        # take a nap for the sleep interval and do it again
         sleep(INTERVAL)
 
 
