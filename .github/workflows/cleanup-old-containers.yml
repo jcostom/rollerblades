@@ -1,0 +1,22 @@
+name: Delete old container images
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*.*'
+      - '*.*.*'
+
+jobs:
+  cleanup-old-containers:
+    name: Delete old unused container images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old images
+        uses: actions/delete-package-versions@v5.0.0
+        with:
+          package-name: ${{ github.event.repository.name }}
+          package-type: container
+          min-versions-to-keep: 2
+          delete-only-untagged-versions: "true"
+          token: ${{ secrets.GITHUB_TOKEN }}
