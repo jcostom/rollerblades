@@ -1,10 +1,17 @@
-FROM python:3.11.7-slim-bookworm
+FROM python:3.12.1-slim-bookworm AS builder
 
 ARG TZ=America/New_York
+RUN apt update && apt -yq install gcc make
+RUN pip install requests
+
+FROM python:3.12.1-slim-bookworm
+
+ARG TZ=America/New_York
+ARG PYVER=3.12
+
+COPY --from=builder /usr/local/lib/python$PYVER/site-packages/ /usr/local/lib/python$PYVER/site-packages/
 
 VOLUME "/config"
-
-RUN pip install requests
 
 RUN mkdir /app
 COPY ./rollerblades.py /app
