@@ -1,0 +1,25 @@
+name: test docker build on pr
+
+on:
+  pull_request:
+    branches: [ "main"]
+
+jobs:
+  testbuild:
+    runs-on:  ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with: 
+          platforms: all
+      - name: Docker Setup Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: false
