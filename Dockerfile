@@ -7,7 +7,7 @@ RUN pip install requests
 FROM python:3.13.0-slim-bookworm
 
 ARG TZ=America/New_York
-ARG PYVER=3.12
+ARG PYVER=3.13
 
 COPY --from=builder /usr/local/lib/python$PYVER/site-packages/ /usr/local/lib/python$PYVER/site-packages/
 
