@@ -1,13 +1,13 @@
-FROM python:3.14.8-slim-bookworm AS builder
+FROM python:3.15.2-slim-bookworm AS builder
 
 ARG TZ=America/New_York
 RUN apt update && apt -yq install gcc make
 RUN pip install requests
 
-FROM python:3.14.8-slim-bookworm
+FROM python:3.15.2-slim-bookworm
 
 ARG TZ=America/New_York
-ARG PYVER=3.14
+ARG PYVER=3.15
 
 COPY --from=builder /usr/local/lib/python$PYVER/site-packages/ /usr/local/lib/python$PYVER/site-packages/
 
